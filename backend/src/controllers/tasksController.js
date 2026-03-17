@@ -10,14 +10,14 @@ export async function getAllTasks(_, res) {
     }
 }
 
-export async function getTaskById(_, res) {
+export async function getTaskById(req, res) {
     try {
-        const task = await Task.findById(_.params.id)
+        const task = await Task.findById(req.params.id)
         if(!task) return res.status(404).json({message: "Task not found!"})
-            res.json(note)
+            res.json(task)
     } catch (error) {
         console.error("Error in getTaskById controller", error)
-        res.status(500).json({message: "Internal server error"})
+        res.status(500).json({message: error.message})
     }
 }
 
@@ -30,7 +30,7 @@ export async function createTask(_, res) {
         res.status(201).json(savedTask);
         console.log(title)
     } catch (error) {
-        console.error("Error in createNote controller", error)
+        console.error("Error in createTask controller", error)
         res.status(500).json({message: "Internal server error"})
     }
 };
